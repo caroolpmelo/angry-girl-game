@@ -5,16 +5,31 @@ using UnityEngine;
 public class GameController : MonoBehaviour
 {
     [SerializeField]
-    GameObject player;
+    private List<GameObject> _coins = new List<GameObject>();
+    private bool _freezeCoins = false;
+
     [SerializeField]
-    GameObject npc;
+    GameObject blueCoin;
+    [SerializeField]
+    GameObject greenCoin;
+    [SerializeField]
+    GameObject greyCoin;
+    [SerializeField]
+    GameObject redCoin;
+    [SerializeField]
+    GameObject yellowCoin;
 
     void Start()
     {
-        
     }
 
     void Update()
     {
+        InstantiateCoins();
+    }
+
+    private void InstantiateCoins() 
+    {
+        //Instantiate(blueCoin);
     }
 }
