@@ -5,7 +5,10 @@ public class ShopController : MonoBehaviour
 {
     [SerializeField]
     private StoreItem[] _items = new StoreItem[15];
+    [SerializeField] // TODO: remover
     private List<StoreItem> _randomItems = new List<StoreItem>();
+
+    System.Random rand = new System.Random();
 
     void Start()
     {
@@ -23,8 +26,6 @@ public class ShopController : MonoBehaviour
         // list of chosen items, to avoid repetition
         List<int> chosenItemsIds = new List<int>();
 
-        System.Random rand = new System.Random();
-
         for (int i = 0; i < 5; i++) // chooses 5 items
         {
             do
@@ -37,10 +38,18 @@ public class ShopController : MonoBehaviour
         // search all items by randomized ids
         foreach (StoreItem item in _items)
         {
-            if (chosenItemsIds.Contains(item.Id))
+            if (chosenItemsIds.Contains(item.Id)) // random id is on chosen ones list
             {
+                item.Coin = RandomizeCoinProp(); // randomize coin prop
                 _randomItems.Add(item); // adds 'unique' item
             }
         }
+    }
+
+    // randomize coins prefab to set item coin prop
+    Object RandomizeCoinProp()
+    {
+        Object[] coins = Resources.LoadAll("coins"); // get all coins prefabs resources
+        return coins[rand.Next(0, coins.Length)]; // set item with a random index
     }
 }

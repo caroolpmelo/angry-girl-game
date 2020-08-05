@@ -13,12 +13,16 @@ public class Coin : MonoBehaviour
 
     [SerializeField]
     private _Colors _color;
+
     private int _quantity;
-    private float timeLimit = 5f;
+
+    private readonly float timeLimit = 5f;
 
     void Start()
     {
-        
+        System.Random rand = new System.Random();
+        // set random value for coin qtt
+        _quantity = rand.Next(1, 11);
     }
 
     void Update()
