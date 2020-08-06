@@ -11,27 +11,7 @@ public class StoreItem : MonoBehaviour
     
     public Object Coin { get;  set; }
 
-    [SerializeField]
-    private bool _isSelected = false;
-    [SerializeField]
-    private GameObject _selector;
-
-    void Start()
-    {
-        
-    }
-
-    void Update()
-    {
-        if (_isSelected && !_selector.activeSelf)
-        {
-            _selector.SetActive(true);
-        }
-        else if (!_isSelected && _selector.activeSelf)
-        {
-            _selector.SetActive(false);
-        }
-    }
+    public bool IsSelected { get;  set; }
 
     public int Id => _id;
 }

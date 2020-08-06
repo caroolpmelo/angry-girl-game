@@ -2,7 +2,7 @@
 
 public class Coin : MonoBehaviour
 {
-    private enum _Colors
+    public enum Colors
     {
         Blue,
         Green,
@@ -12,34 +12,47 @@ public class Coin : MonoBehaviour
     }
 
     [SerializeField]
-    private _Colors _color;
+    private Colors _color;
 
-    private int _quantity;
+    private float _initializationTime;
+    private float _timeSinceInitialization;
+    private readonly float _timeLimit = 5f;
 
-    private readonly float timeLimit = 5f;
+    private GameObject _mainCamera;
+    private GameController _gameController;
 
     void Start()
     {
-        System.Random rand = new System.Random();
-        // set random value for coin qtt
-        _quantity = rand.Next(1, 11);
+        _mainCamera = GameObject.Find("Main Camera");
+        _gameController = _mainCamera.GetComponent<GameController>();
+
+        _initializationTime = Time.timeSinceLevelLoad;
     }
 
     void Update()
     {
-        CheckTimeLimit();
+        CheckCoinDestruction();
     }
 
-    // checks every frame if coin should disappear
-    private void CheckTimeLimit()
+    // checks if how much time has passed since creation for destruction
+    private void CheckCoinDestruction()
     {
-        if (Time.deltaTime % timeLimit == 0) 
+        _timeSinceInitialization = Time.timeSinceLevelLoad - _initializationTime;
+        if (_timeSinceInitialization > _timeLimit)
         {
-            Debug.Log(Time.deltaTime);
+            Destroy(gameObject); // auto destruction
         }
-        //if (Time.fixedTime % 5 == 0) // multiple of 5
-        //{
-        //    Debug.Log("passou 5 segundos");
-        //}
+    }
+
+    // detects if coin is catched
+    private void OnTriggerStay2D(Collider2D collision)
+    {
+        // while player is in contact with coin
+        if (collision.tag.Equals("Player") && Input.GetKeyDown(KeyCode.Space))
+        {
+            Debug.Log("ADD coin");
+            _gameController.CatchCoin(this);
+            Destroy(gameObject); // player catch coin
+        }
     }
 }
